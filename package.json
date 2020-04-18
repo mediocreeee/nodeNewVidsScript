@@ -1,0 +1,17 @@
+{
+  "name": "watchvids",
+  "version": "1.0.0",
+  "description": "",
+  "main": "watchvids.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "opn": "^6.0.0",
+    "request": "^2.88.2",
+    "selenium-webdriver": "^4.0.0-alpha.7"
+  }
+}
