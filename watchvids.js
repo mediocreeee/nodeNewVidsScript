@@ -2,6 +2,7 @@
 // TODO: refactor ids array into list
 // TODO: add json file existance check
 // TODO: maybe rewrite it not using youtube api
+// TODO: add .env lib
 
 (async() => {
   const request = require('request')
@@ -9,8 +10,6 @@
   const fs = require('fs')
   const opn = require('opn')
 
-  // const apiKey = 'AIzaSyAW22VU0aa0ls8X7SeueLbLK8l5L7wyQb0'
-  const apiKey = 'AIzaSyAvVAggkmaHOMAuij6Lqq4pU7A-xjqfp0E'
   const channelIds = ['UC2eYFnH61tmytImy1mTYvhA', 'UCVls1GmFKf6WlTraIb_IaJg']
   // const channelIds = []
 
