@@ -1,18 +1,16 @@
 #!/usr/bin/env node
 
-// TODO: refactor ids array into list: check
-// TODO: add json file existance check: check
 // TODO: refactor functions
 // TODO: maybe rewrite it not using youtube api
-// TODO: add .env lib
 
 (async() => {
-  const request = require('request')
   const fetch = require('node-fetch')
   const fs = require('fs')
+  const os = require('os')
   const opn = require('opn')
 
   // User settings
+  const user = '' // Your system user nickname
   const browser = '' // Browser in which you want to open videos
   const channelIds = { // Your channels list to follow
 	'lukesmith': 'UC2eYFnH61tmytImy1mTYvhA', // ex: 'random name what u like': 'channel id (in the end of url on the channel's main page)'
@@ -25,14 +23,15 @@
   }
 
   // Script setup
+  const homedir = os.homedir()
   const apiKey = '' // Your YoutubeDataAPI key
   const baseVideoUrl = 'https://www.youtube.com/watch?v='
   const baseSearchUrl = 'https://www.googleapis.com/youtube/v3/search?'
   const youtubers = {}
 
   // Check if the file with channels and videos already exists
-  if(!fs.existsSync('youtube.json')) {
-	fs.writeFile('youtube.json','', (err) => {
+  if(!fs.existsSync(`${homedir}/scripts/watchvids/youtube.json`)) {
+	fs.writeFile(`${homedir}/scripts/watchvids/youtube.json`,'', (err) => {
 	  if (err) throw err
 	})
   }
@@ -65,14 +64,14 @@
 	}
 	youtubers[channelName] = videoId
 
-	fs.readFile('youtube.json', 'utf-8', (err, previousVideoData) => {
+	fs.readFile(`${homedir}/scripts/watchvids/youtube.json`, 'utf-8', (err, previousVideoData) => {
 	  if(err) throw err
 
 	  // Check if file is empty
 	  if(previousVideoData == ''){
-		opn(`${baseVideoUrl}${videoId}`, {app: 'firefox'})
+		opn(`${baseVideoUrl}${videoId}`, {app: browser})
 		let newVideoData = JSON.stringify(youtubers, null, 2)
-		fs.writeFile('youtube.json', newVideoData, (err) => {
+		fs.writeFile(`${homedir}/scripts/watchvids/youtube.json`, newVideoData, (err) => {
 		  if (err) throw err
 		  console.log(`Found new video on channel ${channelName}! Openning...`)
 		})
@@ -82,9 +81,9 @@
 	  let youtubersJSON = JSON.parse(previousVideoData)
 	  let lastVideoId = youtubersJSON[channelName]
 	  if(lastVideoId != videoId){
-		opn(`${baseVideoUrl}${videoId}`, {app: 'firefox'})
+		opn(`${baseVideoUrl}${videoId}`, {app: browser})
 		let newVideoData = JSON.stringify(youtubers, null, 2)
-		fs.writeFile('youtube.json', newVideoData, (err) => {
+		fs.writeFile(`${homedir}/scripts/watchvids/youtube.json`, newVideoData, (err) => {
 		  if (err) throw err
 		  console.log(`Found new video on channel ${channelName}! Openning...`)
 		})
@@ -95,4 +94,5 @@
   }
 
 })()
+
 
